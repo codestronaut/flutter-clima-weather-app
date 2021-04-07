@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:lottie/lottie.dart';
+part of 'screens.dart';
 
 class LoadingScreen extends StatefulWidget {
   LoadingScreen({Key key}) : super(key: key);

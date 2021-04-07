@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_clima/screens/location_screen.dart';
+import 'package:flutter_clima/screens/screens.dart';
 import 'package:flutter_clima/utilities/constants.dart';
 
 void main() {

@@ -46,7 +46,7 @@ class _LocationScreenState extends State<LocationScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            flex: 3,
+            flex: 2,
             child: WeatherImage(
               imageAsset: 'assets/storm.png',
             ),

@@ -8,10 +8,27 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position);
+  double latitude;
+  double longitude;
+
+  @override
+  void initState() {
+    getLocationData();
+    super.initState();
+  }
+
+  void getLocationData() async {
+    Location currentLocation = Location();
+    await currentLocation.getCurrentLocation();
+    latitude = currentLocation.latitude;
+    longitude = currentLocation.longitude;
+
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+
+    var weatherData = await networkHelper.getData();
+
+    // TODO: Push weatherData to the LocationScreen
   }
 
   @override
@@ -21,14 +38,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Lottie.asset('assets/loading.json'),
-          TextButton(
-            onPressed: () {
-              getLocation();
-            },
-            child: Text(
-              'Get My Location',
-            ),
-          )
         ],
       ),
     );

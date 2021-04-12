@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// API KEY
+const String apiKey = 'cc95d932d5a45d33a9527d5019475f2c';
+
 // COLORS
 const kPrimaryDarkColor = Color(0xFF1A192B);
 const kPrimaryColor = Color(0xFF25263A);

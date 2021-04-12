@@ -16,6 +16,7 @@ dependencies:
   font_awesome: ^5.10.1
   geolocator: ^7.0.1
   google_fonts: ^2.0.0
+  http: ^0.13.1
   lottie: ^1.0.1
   sizer: ^1.1.8
 

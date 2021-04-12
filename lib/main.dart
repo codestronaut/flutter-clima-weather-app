@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryDarkColor,
         scaffoldBackgroundColor: kPrimaryDarkColor,
       ),
-      home: LocationScreen(),
+      home: LoadingScreen(),
     );
   }
 }

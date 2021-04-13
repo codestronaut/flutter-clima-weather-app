@@ -1,13 +1,22 @@
 part of 'screens.dart';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({Key key}) : super(key: key);
+  final locationWeather;
+  LocationScreen({this.locationWeather});
 
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weather = WeatherModel();
+
+  int temperature;
+  int windSpeed;
+  int humidity;
+  String weatherImage;
+  String cityName;
+
   // This is dummy data - will be remove later
   List time = [
     "08:00",
@@ -18,6 +27,25 @@ class _LocationScreenState extends State<LocationScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    updateUI(widget.locationWeather);
+  }
+
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      var temp = weatherData['main']['temp'];
+      temperature = temp.toInt();
+      var wind = weatherData['wind']['speed'];
+      windSpeed = wind.toInt();
+      var condition = weatherData['weather'][0]['id'];
+      weatherImage = weather.getWeatherImage(condition);
+      humidity = weatherData['main']['humidity'];
+      cityName = weatherData['name'];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -25,12 +53,13 @@ class _LocationScreenState extends State<LocationScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.location_searching),
-          onPressed: () {
-            // Go to user location
+          onPressed: () async {
+            var weatherData = await weather.getLocationWeather();
+            updateUI(weatherData);
           },
         ),
         title: Text(
-          'Bandung', // Hardcoded - will be change later
+          cityName,
           style: kLocationTextStyle,
         ),
         actions: [
@@ -48,7 +77,7 @@ class _LocationScreenState extends State<LocationScreen> {
           Expanded(
             flex: 2,
             child: WeatherImage(
-              imageAsset: 'assets/storm.png',
+              imageAsset: weatherImage,
             ),
           ),
           Expanded(
@@ -70,7 +99,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: [
                           Text(
-                            '8', // Hardcoded - will be change later
+                            '$windSpeed',
                             style: kBoldValueTextStyle,
                           ),
                           SizedBox(width: 4.0),
@@ -94,7 +123,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: [
                           Text(
-                            '18', // Hardcoded - will be change later
+                            '$temperature', // Hardcoded - will be change later
                             style: kBoldValueTextStyle,
                           ),
                           SizedBox(width: 4.0),
@@ -118,7 +147,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: [
                           Text(
-                            '79', // Hardcoded - will be change later
+                            '$humidity',
                             style: kBoldValueTextStyle,
                           ),
                           SizedBox(width: 4.0),
@@ -216,7 +245,3 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 }
-
-// var temp = jsonDecode(data)['main']['temp'];      
-// var condition = jsonDecode(data)['weather'][0]['id'];
-// var cityName = jsonDecode(data)['name'];

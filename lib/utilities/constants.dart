@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// BASE URL
+const String baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
 // API KEY
 const String apiKey = 'cc95d932d5a45d33a9527d5019475f2c';
 

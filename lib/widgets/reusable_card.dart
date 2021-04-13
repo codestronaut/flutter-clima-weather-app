@@ -1,4 +1,4 @@
-part of 'components.dart';
+part of 'widgets.dart';
 
 class ReusableCard extends StatelessWidget {
   final Color cardColor;

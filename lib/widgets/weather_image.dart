@@ -1,4 +1,4 @@
-part of 'components.dart';
+part of 'widgets.dart';
 
 class WeatherImage extends StatelessWidget {
   final String imageAsset;

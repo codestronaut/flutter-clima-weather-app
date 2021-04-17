@@ -9,7 +9,7 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  WeatherModel weather = WeatherModel();
+  WeatherController weather = WeatherController();
 
   int temperature;
   int windSpeed;

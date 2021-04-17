@@ -90,13 +90,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_gradients:
-    dependency: "direct main"
-    description:
-      name: flutter_gradients
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0+3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -135,6 +128,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.4"
   google_fonts:
     dependency: "direct main"
     description:
@@ -261,13 +261,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.1"
-  sizer:
-    dependency: "direct main"
-    description:
-      name: sizer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.8"
   sky_engine:
     dependency: transitive
     description: flutter

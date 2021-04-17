@@ -1,8 +1,8 @@
-import 'package:flutter_clima/models/location.dart';
-import 'package:flutter_clima/services/networking.dart';
+import 'package:flutter_clima/data/helper/network_helper.dart';
+import 'package:flutter_clima/data/models/location.dart';
 import 'package:flutter_clima/utilities/constants.dart';
 
-class WeatherModel {
+class WeatherController {
   Future<dynamic> getLocationWeather() async {
     Location currentLocation = Location();
     await currentLocation.getCurrentLocation();

@@ -17,15 +17,6 @@ class _LocationScreenState extends State<LocationScreen> {
   String weatherImage;
   String cityName;
 
-  // This is dummy data - will be remove later
-  List time = [
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -65,182 +56,136 @@ class _LocationScreenState extends State<LocationScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              // Search for a location
+            onPressed: () async {
+              String result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CityScreen(),
+                ),
+              );
+
+              print(result);
+
+              if (result != null) {
+                var weatherData = await weather.getCityWeather(result);
+                updateUI(weatherData);
+              } else {
+                var weatherData = await weather.getLocationWeather();
+                updateUI(weatherData);
+              }
             },
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 2,
-            child: WeatherImage(
-              imageAsset: weatherImage,
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ReusableCard(
-              cardMargin: const EdgeInsets.all(16.0),
-              cardGradient: kPrimaryGradient,
-              cardChild: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        kWindLabel,
-                        style: kLightLabelTextStyle,
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
-                        children: [
-                          Text(
-                            '$windSpeed',
-                            style: kBoldValueTextStyle,
-                          ),
-                          SizedBox(width: 4.0),
-                          Text(
-                            kWindUnit,
-                            style: kUnitTextStyle,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  VerticalDivider(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        kTempLabel,
-                        style: kLightLabelTextStyle,
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
-                        children: [
-                          Text(
-                            '$temperature', // Hardcoded - will be change later
-                            style: kBoldValueTextStyle,
-                          ),
-                          SizedBox(width: 4.0),
-                          Text(
-                            kTempUnit,
-                            style: kUnitTextStyle,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  VerticalDivider(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        kHumidityLabel,
-                        style: kLightLabelTextStyle,
-                      ),
-                      SizedBox(height: 2.0),
-                      Row(
-                        children: [
-                          Text(
-                            '$humidity',
-                            style: kBoldValueTextStyle,
-                          ),
-                          SizedBox(width: 4.0),
-                          Text(
-                            kHumidityUnit,
-                            style: kUnitTextStyle,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
               ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          kTodayLabel,
-                          style: kBoldLabelTextStyle,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward_rounded),
-                          onPressed: () {
-                            // Go to forecast page
-                          },
-                        )
-                      ],
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: WeatherImage(
+                        imageAsset: weatherImage,
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: time.length,
-                    itemBuilder: (context, index) {
-                      return ReusableCard(
-                        cardColor: kPrimaryColor,
-                        cardPadding: EdgeInsets.all(24.0),
-                        cardMargin: EdgeInsets.fromLTRB(
-                          16.0,
-                          14.0,
-                          0.0,
-                          24.0,
+                    Expanded(
+                      flex: 1,
+                      child: ReusableCard(
+                        cardMargin: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 24.0,
                         ),
-                        cardGradient: index == 1 ? kPrimaryGradient : null,
-                        cardChild: Column(
+                        cardColor: kTealColor,
+                        cardChild: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
-                              '${time[index]}',
-                              style: kLightLabelTextStyle,
-                            ),
-                            SizedBox(height: 12.0),
-                            Image.asset(
-                              'assets/clear.png',
-                              height: 48.0,
-                              width: 48.0,
-                            ),
-                            SizedBox(height: 8.0),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '18',
-                                  style: kUnitTextStyle,
+                                  kWindLabel,
+                                  style: kLightLabelTextStyle,
                                 ),
-                                SizedBox(width: 4.0),
+                                SizedBox(height: 2.0),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '$windSpeed',
+                                      style: kBoldValueTextStyle,
+                                    ),
+                                    SizedBox(width: 4.0),
+                                    Text(
+                                      kWindUnit,
+                                      style: kUnitTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            VerticalDivider(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Text(
-                                  kTempUnit,
-                                  style: kUnitTextStyle,
+                                  kTempLabel,
+                                  style: kLightLabelTextStyle,
+                                ),
+                                SizedBox(height: 2.0),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '$temperature', // Hardcoded - will be change later
+                                      style: kBoldValueTextStyle,
+                                    ),
+                                    SizedBox(width: 4.0),
+                                    Text(
+                                      kTempUnit,
+                                      style: kUnitTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            VerticalDivider(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  kHumidityLabel,
+                                  style: kLightLabelTextStyle,
+                                ),
+                                SizedBox(height: 2.0),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '$humidity',
+                                      style: kBoldValueTextStyle,
+                                    ),
+                                    SizedBox(width: 4.0),
+                                    Text(
+                                      kHumidityUnit,
+                                      style: kUnitTextStyle,
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
                           ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

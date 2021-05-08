@@ -4,20 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 // BASE URL
 const String baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
+// URLS
+String getWeatherByLocationUrl(double lat, double lon) {
+  return '$baseUrl?lat=$lat&lon=$lon&appid=$apiKey&units=metric';
+}
+
+String getWeatherByCityUrl(String cityName) {
+  return '$baseUrl?q=$cityName&appid=$apiKey&units=metric';
+}
+
 // API KEY
 const String apiKey = 'cc95d932d5a45d33a9527d5019475f2c';
 
 // COLORS
 const kPrimaryDarkColor = Color(0xFF1A192B);
 const kPrimaryColor = Color(0xFF25263A);
-const kPrimaryGradient = LinearGradient(
-  begin: Alignment.bottomLeft,
-  end: Alignment.topRight,
-  colors: [
-    Color(0xFFFA62E4),
-    Color(0xFF3463F2),
-  ],
-);
+const kTealColor = Color(0xFF7FBDCA);
 
 // CONSTANT TEXTS
 const String kWindLabel = 'Wind';
@@ -52,4 +54,15 @@ var kBoldValueTextStyle = GoogleFonts.poppins(
 var kUnitTextStyle = GoogleFonts.poppins(
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
+);
+
+const kCustomInputDecoration = InputDecoration(
+  hintText: 'Search city',
+  filled: true,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(10.0),
+    ),
+    borderSide: BorderSide.none,
+  ),
 );

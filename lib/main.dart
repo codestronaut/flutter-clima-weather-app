@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         primaryColor: kPrimaryDarkColor,
+        accentColor: kTealColor,
         scaffoldBackgroundColor: kPrimaryDarkColor,
       ),
       home: LoadingScreen(),

@@ -1,28 +1,46 @@
 part of 'screens.dart';
 
 class LoadingScreen extends StatefulWidget {
-  LoadingScreen({Key key}) : super(key: key);
+  final String fromPage;
+  final String cityName;
+  LoadingScreen({
+    @required this.fromPage,
+    this.cityName,
+  });
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  WeatherController weatherController = WeatherController();
+  Weather weather;
+
   @override
   void initState() {
-    getLocationData();
+    // TODO: Check connection
+    // If connection is available then load weather
+    // Otherwise loading 404 page
+    getWeatherData();
     super.initState();
   }
 
-  void getLocationData() async {
-    WeatherController weatherModel = WeatherController();
-    var weatherData = await weatherModel.getLocationWeather();
+  void getWeatherData() async {
+    if (widget.fromPage == 'location') {
+      weather = await weatherController.getWeatherByLocation();
+    } else if (widget.fromPage == 'city') {
+      if (widget.cityName != null) {
+        weather = await weatherController.getWeatherByCity(widget.cityName);
+      } else {
+        weather = await weatherController.getWeatherByLocation();
+      }
+    }
 
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => LocationScreen(
-          locationWeather: weatherData,
+          weatherData: weather,
         ),
       ),
     );

@@ -60,7 +60,15 @@ class _CityScreenState extends State<CityScreen> {
               } else {
                 _validate = false;
                 FocusScope.of(context).unfocus();
-                Navigator.pop(context, value);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoadingScreen(
+                      fromPage: 'city',
+                      cityName: value,
+                    ),
+                  ),
+                );
               }
             },
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter_clima/data/helper/network_helper.dart';
 import 'package:flutter_clima/data/models/location.dart';
+import 'package:flutter_clima/data/models/weather.dart';
 import 'package:flutter_clima/utilities/constants.dart';
 
 class WeatherController {
@@ -7,22 +8,28 @@ class WeatherController {
     return NetworkHelper(url);
   }
 
-  Future<dynamic> getLocationWeather() async {
+  Future<dynamic> getWeatherByLocation() async {
     Location currentLocation = Location();
     await currentLocation.getCurrentLocation();
 
-    NetworkHelper networkHelper = NetworkHelper(
-        '$baseUrl?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&appid=$apiKey&units=metric');
+    var response = await _network(
+      getWeatherByLocationUrl(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      ),
+    ).getData();
 
-    var weatherData = await networkHelper.getData();
-
-    return weatherData;
+    return Weather.fromJson(response);
   }
 
-  Future<dynamic> getCityWeather(String cityName) async {
-    var weatherData = await _network(getWeatherByCityUrl(cityName)).getData();
+  Future<dynamic> getWeatherByCity(String cityName) async {
+    var response = await _network(
+      getWeatherByCityUrl(
+        cityName,
+      ),
+    ).getData();
 
-    return weatherData;
+    return Weather.fromJson(response);
   }
 
   String getWeatherImage(int condition) {

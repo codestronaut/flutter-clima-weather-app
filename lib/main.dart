@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
         accentColor: kTealColor,
         scaffoldBackgroundColor: kPrimaryDarkColor,
       ),
-      home: LoadingScreen(),
+      home: LoadingScreen(
+        fromPage: 'location',
+      ),
     );
   }
 }

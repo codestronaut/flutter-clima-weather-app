@@ -1,38 +1,26 @@
 part of 'screens.dart';
 
 class LocationScreen extends StatefulWidget {
-  final locationWeather;
-  LocationScreen({this.locationWeather});
+  final Weather weatherData;
+  LocationScreen({this.weatherData});
 
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  WeatherController weather = WeatherController();
-
-  int temperature;
-  int windSpeed;
-  int humidity;
-  String weatherImage;
-  String cityName;
+  WeatherController weatherController = WeatherController();
+  Weather weather;
 
   @override
   void initState() {
     super.initState();
-    updateUI(widget.locationWeather);
+    updateUI(widget.weatherData);
   }
 
-  void updateUI(dynamic weatherData) {
+  void updateUI(Weather weatherData) {
     setState(() {
-      var temp = weatherData['main']['temp'];
-      temperature = temp.toInt();
-      var wind = weatherData['wind']['speed'];
-      windSpeed = wind.toInt();
-      var condition = weatherData['weather'][0]['id'];
-      weatherImage = weather.getWeatherImage(condition);
-      humidity = weatherData['main']['humidity'];
-      cityName = weatherData['name'];
+      weather = weatherData;
     });
   }
 
@@ -45,34 +33,28 @@ class _LocationScreenState extends State<LocationScreen> {
         leading: IconButton(
           icon: Icon(Icons.location_searching),
           onPressed: () async {
-            var weatherData = await weather.getLocationWeather();
-            updateUI(weatherData);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoadingScreen(fromPage: 'location'),
+              ),
+            );
           },
         ),
         title: Text(
-          cityName,
+          weather.city,
           style: kLocationTextStyle,
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () async {
-              String result = await Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => CityScreen(),
                 ),
               );
-
-              print(result);
-
-              if (result != null) {
-                var weatherData = await weather.getCityWeather(result);
-                updateUI(weatherData);
-              } else {
-                var weatherData = await weather.getLocationWeather();
-                updateUI(weatherData);
-              }
             },
           ),
         ],
@@ -91,7 +73,9 @@ class _LocationScreenState extends State<LocationScreen> {
                     Expanded(
                       flex: 3,
                       child: WeatherImage(
-                        imageAsset: weatherImage,
+                        imageAsset: weatherController.getWeatherImage(
+                          weather.condition,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -116,7 +100,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      '$windSpeed',
+                                      '${weather.wind.toInt()}',
                                       style: kBoldValueTextStyle,
                                     ),
                                     SizedBox(width: 4.0),
@@ -140,7 +124,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      '$temperature', // Hardcoded - will be change later
+                                      '${weather.temperature.toInt()}', // Hardcoded - will be change later
                                       style: kBoldValueTextStyle,
                                     ),
                                     SizedBox(width: 4.0),
@@ -164,7 +148,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      '$humidity',
+                                      '${weather.humidity}',
                                       style: kBoldValueTextStyle,
                                     ),
                                     SizedBox(width: 4.0),

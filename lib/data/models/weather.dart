@@ -1,9 +1,9 @@
 class Weather {
   final String city;
-  final int condition;
-  final double temperature;
-  final double wind;
-  final int humidity;
+  final num condition;
+  final num temperature;
+  final num wind;
+  final num humidity;
 
   Weather({
     this.city,

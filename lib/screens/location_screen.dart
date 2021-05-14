@@ -67,104 +67,13 @@ class _LocationScreenState extends State<LocationScreen> {
                 minHeight: constraints.maxHeight,
               ),
               child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: WeatherImage(
-                        imageAsset: weatherController.getWeatherImage(
-                          weather.condition,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ReusableCard(
-                        cardMargin: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 24.0,
-                        ),
-                        cardColor: kTealColor,
-                        cardChild: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  kWindLabel,
-                                  style: kLightLabelTextStyle,
-                                ),
-                                SizedBox(height: 2.0),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${weather.wind.toInt()}',
-                                      style: kBoldValueTextStyle,
-                                    ),
-                                    SizedBox(width: 4.0),
-                                    Text(
-                                      kWindUnit,
-                                      style: kUnitTextStyle,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            VerticalDivider(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  kTempLabel,
-                                  style: kLightLabelTextStyle,
-                                ),
-                                SizedBox(height: 2.0),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${weather.temperature.toInt()}', // Hardcoded - will be change later
-                                      style: kBoldValueTextStyle,
-                                    ),
-                                    SizedBox(width: 4.0),
-                                    Text(
-                                      kTempUnit,
-                                      style: kUnitTextStyle,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            VerticalDivider(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  kHumidityLabel,
-                                  style: kLightLabelTextStyle,
-                                ),
-                                SizedBox(height: 2.0),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${weather.humidity}',
-                                      style: kBoldValueTextStyle,
-                                    ),
-                                    SizedBox(width: 4.0),
-                                    Text(
-                                      kHumidityUnit,
-                                      style: kUnitTextStyle,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                child: WeatherContent(
+                  weatherImage: weatherController.getWeatherImage(
+                    weather.condition,
+                  ),
+                  temperature: weather.temperature,
+                  wind: weather.wind,
+                  humidity: weather.humidity,
                 ),
               ),
             ),
